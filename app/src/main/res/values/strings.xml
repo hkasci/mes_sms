@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MES_SMS</string>
+    <string name="default_emergency_message">Bölgede doğal bir afet meydana geldi. Güvende iseniz 1; değilse 2 yazın.</string>
+    <string name="follow_up">Lütfen şu anki adresinizi yazın.</string>
+    <string name="pin_prompt">3 haneli PIN girin</string>
+    <string name="send_button">Gönder</string>
+    <string name="select_contacts">Kişileri veya grupları seçin</string>
+</resources>

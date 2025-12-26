@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.myapplication">
+
+    <!-- Required permissions -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SEND_SMS" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_SMS" tools:ignore="ProtectedPermissions" />
+    <!-- WRITE_EXTERNAL_STORAGE removed: using app-specific external files dir instead -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:ignore="ForegroundService" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Declare telephony feature (required for SMS functionality) -->
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+
+        <!-- Foreground service that keeps SMS monitoring active -->
+        <service
+            android:name="com.example.myapplication.mes_sms.BackgroundService"
+            android:exported="false"
+            android:foregroundServiceType="none" />
+
+        <!-- SMS receiver to capture incoming SMS even if app not running -->
+        <receiver
+            android:name="com.example.myapplication.mes_sms.SmsReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Optional boot receiver to restart service after device reboot -->
+        <receiver android:name="com.example.myapplication.mes_sms.BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
